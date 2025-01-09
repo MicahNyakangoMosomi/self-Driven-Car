@@ -1,3 +1,10 @@
-*{
-  
+body{
+  margin: 0;
+  text-align: center;
+  overflow: hidden;
+  background-color: darkgrey;
+}
+
+#mycanvas{
+  background-color: lightgrey;
 }
