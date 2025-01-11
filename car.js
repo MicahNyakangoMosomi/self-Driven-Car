@@ -1,19 +1,65 @@
-export class Car {
+class Car {
   constructor(x, y, width, height) {
     this.x = x;           // Assign x-coordinate
     this.y = y;           // Assign y-coordinate
     this.width = width;   // Assign width of the car
     this.height = height; // Assign height of the car
+    this.speed=0;
+    this.acceleration = 0.2;
+    this.maxSpeed = 3;
+    this.friction = 0.05;
+    this.angle = 0;
+    
+    this.controls = new Controls(); // Create a new Control object
+  }
+
+  update(){
+    if(this.controls.forward){
+      this.speed+=this.acceleration;
+    }
+    if(this.controls.reverse){
+      this.speed-=this.acceleration;
+    }
+    if(this.speed>this.maxSpeed){
+      this.speed = this.maxSpeed;
+    }
+    if(this.speed<-this.maxSpeed/2){
+      this.speed = -this.maxSpeed/2;
+    }
+    if(this.speed>0){
+      this.speed-=this.friction;
+    }
+    if(this.speed<0){
+      this.speed+=this.friction;
+    }
+    if(Math.abs(this.speed)<this.friction){
+      this.speed = 0;
+    }
+    
+
+    if(this.controls.right){
+      this.angle-=0.03;
+    }
+    if(this.controls.left){
+      this.angle+=0.03;
+    }
+
+    this.y-=this.speed;
+
   }
 
   draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x,this.y)
+    ctx.rotate(-this.angle)
     ctx.beginPath(); // Start a new drawing path
     ctx.rect(        // Define a rectangle
-      this.x - this.width / 2,   // Center the rectangle horizontally
-      this.y - this.height / 2,  // Center the rectangle vertically
+      - this.width / 2,   // Center the rectangle horizontally
+      - this.height / 2,  // Center the rectangle vertically
       this.width,                // Width of the rectangle
       this.height                // Height of the rectangle
     );
     ctx.fill(); // Fill the rectangle with the current fill style which is black in my case
+    ctx.restore()
   }
 }
