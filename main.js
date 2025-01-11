@@ -2,6 +2,7 @@ const canvas = document.getElementById("mycanvas");
 canvas.width = 200; // sets the canvas width to 200
 // Get the 2D drawing context
 const ctx = canvas.getContext("2d");
+const road = new Road(canvas.width/2,canvas.width);
 
 // Create and draw the car
 const car = new Car(100, 100, 30, 50); 
@@ -11,8 +12,10 @@ car.draw(ctx);  // Draws the car
 function animate(){
     car.update();
     canvas.height = window.innerHeight; 
-    car.draw(ctx)
-    requestAnimationFrame(animate) //calls the animate function again and again per second
+
+    road.draw(ctx);
+    car.draw(ctx);
+    requestAnimationFrame(animate); //calls the animate function again and again per second
 }
 
-animate()
+animate();
