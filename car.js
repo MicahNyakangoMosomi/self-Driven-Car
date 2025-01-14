@@ -9,7 +9,6 @@ class Car {
     this.maxSpeed = 3;  //the maximum speed is 3
     this.friction = 0.05; //sets a friction of 0.05
     this.angle = 0;  //angle at which the car turn
-    
     this.controls = new Controls(); // Create a new Control object
   }
 
