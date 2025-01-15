@@ -17,6 +17,7 @@
     canvas.width = window.innerWidth; 
     canvas.height = window.innerHeight;
     const ctx = canvas.getContext('2d');
+    /*
     ctx.fillStyle = "red"
     ctx.fillRect(100,100,100,100);
     ctx.fillStyle = "black"
@@ -36,6 +37,69 @@
     ctx.lineTo(600,300)
     ctx.strokeStyle = "red"
     ctx.stroke()
+
+    ctx.beginPath()
+    ctx.arc(600,600,70,0,Math.PI * 2,false)
+    ctx.strokeStyle= "green"
+    ctx.stroke()
+  */
+  /*
+  let x = 200
+  let y = 200
+  let dx = 9;
+  let dy = 9
+  function animate(){
+    console.log('hello')
+    ctx.clearRect(0,0,innerWidth,innerHeight)
+    ctx.beginPath()
+    ctx.arc(x,y,60,0,Math.PI * 2,false)
+    ctx.strokeStyle= "green"
+    ctx.stroke()
+    if (x + 60 > innerWidth ||x-60 < 0){
+      dx = -dx
+    } 
+    if (y + 60 > innerHeight ||y-60 < 0){
+      dy = -dy
+    } 
+    requestAnimationFrame(animate)
+    x+=dx
+    y+=dy 
+  }
+  animate()
+
+  */
+
+  class CIRCLE{
+    constructor(x,y,dx,dy){
+      this.x=x;
+      this.y=y;
+      this.dx=dx;
+      this.dy=dy;
+      this.radius=50
+      this.#draw(ctx);
+    }
+    #draw(ctx){
+      ctx.beginPath()
+      ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,false)
+      ctx.fillStyle="blue"
+      ctx.fill()
+    }
+    update(){
+      let change_in_x = this.dx
+      let change_in_y = this.dy
+      if(this.x > innerHeight || this.x<0){
+        change_in_x= -this.dx
+      }
+      if(this.y > innerHeight || this.y < 0){
+        change_in_y = -this.y
+      }
+      this.x+=change_in_x
+      this.y+=change_in_y
+
+
+    }
+  }
+  const circle = new CIRCLE(500,500,0,0)
   </script>
 </body>
 </html>
