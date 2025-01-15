@@ -69,37 +69,50 @@
 
   */
 
-  class CIRCLE{
-    constructor(x,y,dx,dy){
-      this.x=x;
-      this.y=y;
-      this.dx=dx;
-      this.dy=dy;
-      this.radius=50
-      this.#draw(ctx);
-    }
-    #draw(ctx){
-      ctx.beginPath()
-      ctx.arc(this.x,this.y,this.radius,0,Math.PI*2,false)
-      ctx.fillStyle="blue"
-      ctx.fill()
-    }
-    update(){
-      let change_in_x = this.dx
-      let change_in_y = this.dy
-      if(this.x > innerHeight || this.x<0){
-        change_in_x= -this.dx
+    class Circle {
+      constructor(x, y, dx, dy) {
+        this.x = x;
+        this.y = y;
+        this.dx = dx;
+        this.dy = dy;
+        this.radius = 50;
       }
-      if(this.y > innerHeight || this.y < 0){
-        change_in_y = -this.y
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.fillStyle = "blue";
+        ctx.fill();
       }
-      this.x+=change_in_x
-      this.y+=change_in_y
 
+      move() {
+        // Reverse direction if hitting canvas boundaries
+        if (this.x + this.radius > innerWidth || this.x - this.radius < 0) {
+          this.dx = -this.dx;
+        }
+        if (this.y + this.radius > innerHeight || this.y - this.radius < 0) {
+          this.dy = -this.dy;
+        }
+        // Update position
+        this.x += this.dx;
+        this.y += this.dy;
+      }
 
+      update() {
+        // Animate the circle
+        const animate = () => {
+          ctx.clearRect(0, 0, innerWidth, innerHeight); // Clear canvas
+          this.move(); // Move the circle
+          this.draw(); // Draw the updated circle
+          requestAnimationFrame(animate); // Recursive animation
+        };
+        animate();
+      }
     }
-  }
-  const circle = new CIRCLE(500,500,0,0)
+
+    const circle = new Circle(500, 500, 10, 4);
+    circle.update();
+
   </script>
 </body>
 </html>
