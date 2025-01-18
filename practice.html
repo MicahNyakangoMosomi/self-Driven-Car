@@ -5,19 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    body{
+      margin: 0;
+      text-align: center;
+      overflow: hidden;
+      background-color: darkgrey;
+    }
+    
     canvas{
-      border: solid 1px black;
+      background-color:lightgrey;
     }
   </style>
 </head>
 <body>
   <canvas></canvas>
   <script>
+    /*
     const canvas = document.querySelector('canvas');
     canvas.width = window.innerWidth; 
     canvas.height = window.innerHeight;
     const ctx = canvas.getContext('2d');
-    /*
+    
     ctx.fillStyle = "red"
     ctx.fillRect(100,100,100,100);
     ctx.fillStyle = "black"
@@ -67,7 +75,7 @@
   }
   animate()
 
-  */
+  
 
     class Circle {
       constructor(x, y, dx, dy) {
@@ -112,6 +120,23 @@
 
     const circle = new Circle(500, 500, 10, 4);
     circle.update();
+
+    */
+
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.height = window.innerHeight;
+    canvas.width = 200;
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    ctx.beginPath()
+    ctx.fillStyle = "black"
+    ctx.rect(60,-60,10,10)
+    ctx.rect(0,0,10,10)
+    ctx.fill();
+    
+
+    
 
   </script>
 </body>
