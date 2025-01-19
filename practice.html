@@ -125,18 +125,108 @@
 
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
+
+    // Movement flags
+    let forward = false;
+    let reverse = false;
+    let left = false;
+    let right = false;
+
+    // Canvas setup
     canvas.height = window.innerHeight;
     canvas.width = 200;
     ctx.translate(canvas.width / 2, canvas.height / 2);
 
-    ctx.beginPath()
-    ctx.fillStyle = "black"
-    ctx.rect(60,-60,10,10)
-    ctx.rect(0,0,10,10)
-    ctx.fill();
-    
+    // Draw rectangle
+    function draw(x, y, width, height) {
+      ctx.beginPath();
+      ctx.fillStyle = "black";
+      ctx.rect(x, y, width, height);
+      ctx.fill();
+    }
 
-    
+    // Movement controls
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'ArrowUp':
+          forward = true;
+          break;
+        case 'ArrowDown':
+          reverse = true;
+          break;
+        case 'ArrowLeft':
+          left = true;
+          break;
+        case 'ArrowRight':
+          right = true;
+          break;
+      }
+    });
+
+    document.addEventListener('keyup', (event) => {
+      switch (event.key) {
+        case 'ArrowUp':
+          forward = false;
+          break;
+        case 'ArrowDown':
+          reverse = false;
+          break;
+        case 'ArrowLeft':
+          left = false;
+          break;
+        case 'ArrowRight':
+          right = false;
+          break;
+      }
+    });
+
+    // Variables for movement
+    const acceleration = 0.2;
+    const friction = 0.05;
+    const maxSpeed = 4;
+    let speed = 0;
+    let x = 0;
+    let y = 0;
+
+    function move() {
+      // Apply acceleration
+      if (forward) {
+        speed = Math.min(speed + acceleration, maxSpeed);
+      }
+      if (reverse) {
+        speed = Math.max(speed - acceleration, -maxSpeed/2);
+      }
+
+      // Apply friction
+      if (!forward && !reverse) {
+        if (speed > 0) {
+          speed = Math.max(speed - friction, 0);
+        } else if (speed < 0) {
+          speed = Math.min(speed + friction, 0);
+        }
+      }
+
+      // Apply horizontal movement
+      if (left) {
+        x -= 2;
+      }
+      if (right) {
+        x += 2;
+      }
+
+      // Update position
+      y -= speed;
+    }
+
+    function animate() {
+      ctx.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+      move();
+      draw(x, y, 30, 50);
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
 
   </script>
 </body>
