@@ -5,164 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    body{
+    body {
       margin: 0;
       text-align: center;
       overflow: hidden;
       background-color: darkgrey;
     }
-    
-    canvas{
-      background-color:lightgrey;
+    canvas {
+      background-color: lightgrey;
     }
   </style>
 </head>
 <body>
   <canvas></canvas>
   <script>
-    /*
-    const canvas = document.querySelector('canvas');
-    canvas.width = window.innerWidth; 
-    canvas.height = window.innerHeight;
-    const ctx = canvas.getContext('2d');
-    
-    ctx.fillStyle = "red"
-    ctx.fillRect(100,100,100,100);
-    ctx.fillStyle = "black"
-    ctx.fillRect(500,300,100,100)
-
-    ctx.beginPath()
-    ctx.moveTo(100,100)
-    ctx.lineTo(500,300)
-
-    ctx.moveTo(100,200)
-    ctx.lineTo(500,400)
-
-    ctx.moveTo(200,200)
-    ctx.lineTo(600,400)
-
-    ctx.moveTo(200,100)
-    ctx.lineTo(600,300)
-    ctx.strokeStyle = "red"
-    ctx.stroke()
-
-    ctx.beginPath()
-    ctx.arc(600,600,70,0,Math.PI * 2,false)
-    ctx.strokeStyle= "green"
-    ctx.stroke()
-  */
-  /*
-  let x = 200
-  let y = 200
-  let dx = 9;
-  let dy = 9
-  function animate(){
-    console.log('hello')
-    ctx.clearRect(0,0,innerWidth,innerHeight)
-    ctx.beginPath()
-    ctx.arc(x,y,60,0,Math.PI * 2,false)
-    ctx.strokeStyle= "green"
-    ctx.stroke()
-    if (x + 60 > innerWidth ||x-60 < 0){
-      dx = -dx
-    } 
-    if (y + 60 > innerHeight ||y-60 < 0){
-      dy = -dy
-    } 
-    requestAnimationFrame(animate)
-    x+=dx
-    y+=dy 
-  }
-  animate()
-
-  
-
-    class Circle {
-      constructor(x, y, dx, dy) {
-        this.x = x;
-        this.y = y;
-        this.dx = dx;
-        this.dy = dy;
-        this.radius = 50;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fillStyle = "blue";
-        ctx.fill();
-      }
-
-      move() {
-        // Reverse direction if hitting canvas boundaries
-        if (this.x + this.radius > innerWidth || this.x - this.radius < 0) {
-          this.dx = -this.dx;
-        }
-        if (this.y + this.radius > innerHeight || this.y - this.radius < 0) {
-          this.dy = -this.dy;
-        }
-        // Update position
-        this.x += this.dx;
-        this.y += this.dy;
-      }
-
-      update() {
-        // Animate the circle
-        const animate = () => {
-          ctx.clearRect(0, 0, innerWidth, innerHeight); // Clear canvas
-          this.move(); // Move the circle
-          this.draw(); // Draw the updated circle
-          requestAnimationFrame(animate); // Recursive animation
-        };
-        animate();
-      }
-    }
-
-    const circle = new Circle(500, 500, 10, 4);
-    circle.update();
-
-    */
-
+    // Select the canvas element and get the 2D rendering context
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
 
-    // Movement flags
+    // Movement flags to track user input
     let forward = false;
     let reverse = false;
     let left = false;
     let right = false;
 
-    // Canvas setup
+    // Set canvas dimensions to fill the entire screen
     canvas.height = window.innerHeight;
     canvas.width = 200;
+
+    // Translate the coordinate system to center the canvas horizontally and vertically
     ctx.translate(canvas.width / 2, canvas.height / 2);
 
-    // Draw rectangle
+    // Function to draw a rectangle at the specified position
     function draw(x, y, width, height) {
       ctx.beginPath();
-      ctx.fillStyle = "black";
-      ctx.rect(x, y, width, height);
-      ctx.fill();
+      ctx.fillStyle = "black"; // Set the rectangle's color
+      ctx.rect(x, y, width, height); // Define the rectangle's position and size
+      ctx.fill(); // Render the rectangle
     }
 
-    // Movement controls
+    // Listen for key presses and set movement flags accordingly
     document.addEventListener('keydown', (event) => {
       switch (event.key) {
-        case 'ArrowUp':
+        case 'ArrowUp': // Move forward
           forward = true;
           break;
-        case 'ArrowDown':
+        case 'ArrowDown': // Move backward
           reverse = true;
           break;
-        case 'ArrowLeft':
+        case 'ArrowLeft': // Move left
           left = true;
           break;
-        case 'ArrowRight':
+        case 'ArrowRight': // Move right
           right = true;
           break;
       }
     });
 
+    // Listen for key releases and reset movement flags
     document.addEventListener('keyup', (event) => {
       switch (event.key) {
         case 'ArrowUp':
@@ -180,54 +80,57 @@
       }
     });
 
-    // Variables for movement
-    const acceleration = 0.2;
-    const friction = 0.05;
-    const maxSpeed = 4;
-    let speed = 0;
-    let x = 0;
-    let y = 0;
+    // Movement-related variables
+    const acceleration = 0.2; // Acceleration rate
+    const friction = 0.05; // Friction to reduce speed when not moving
+    const maxSpeed = 4; // Maximum forward speed
+    let speed = 0; // Initial speed
+    let x = 0; // Initial horizontal position
+    let y = 0; // Initial vertical position
 
+    // Function to handle movement logic
     function move() {
-      // Apply acceleration
+      // Increase speed when moving forward, up to maxSpeed
       if (forward) {
         speed = Math.min(speed + acceleration, maxSpeed);
       }
+      // Decrease speed when reversing, with a maximum reverse speed
       if (reverse) {
-        speed = Math.max(speed - acceleration, -maxSpeed/2);
+        speed = Math.max(speed - acceleration, -maxSpeed / 2);
       }
 
-      // Apply friction
+      // Apply friction to gradually stop movement when no key is pressed
       if (!forward && !reverse) {
         if (speed > 0) {
-          speed = Math.max(speed - friction, 0);
+          speed = Math.max(speed - friction, 0); // Gradually reduce positive speed
         } else if (speed < 0) {
-          speed = Math.min(speed + friction, 0);
+          speed = Math.min(speed + friction, 0); // Gradually reduce negative speed
         }
       }
 
-      // Apply horizontal movement
+      // Move horizontally when left or right keys are pressed
       if (left) {
-        x -= 2;
+        x -= 2; // Move left
       }
       if (right) {
-        x += 2;
+        x += 2; // Move right
       }
 
-      // Update position
+      // Update vertical position based on speed
       y -= speed;
     }
 
+    // Main animation loop
     function animate() {
+      // Clear the canvas before each frame
       ctx.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
-      move();
-      draw(x, y, 30, 50);
-      requestAnimationFrame(animate);
+      move(); // Update position based on input
+      draw(x, y, 30, 50); // Draw the rectangle at the updated position
+      requestAnimationFrame(animate); // Recursively call animate for the next frame
     }
 
+    // Start the animation loop
     animate();
-
-
   </script>
 </body>
 </html>
