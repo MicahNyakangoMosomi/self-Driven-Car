@@ -321,4 +321,61 @@ animate();
 
 // animate()
 
-class
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const colors=['orange','black','yellow'];
+
+class Circle{
+  constructor(x,y,dy,dx){
+    this.x=x
+    this.y=y
+    this.dx=dx
+    this.dy=dy
+    this.r = 30 //r => radius
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
+    ctx.stroke();
+    ctx.fill();
+    // console.log('draw')
+  }
+  update(){
+    
+    if(this.x+this.r>innerWidth || this.x-this.r<0){
+      this.dx=-this.dx
+    }
+    if(this.y+this.r>innerHeight || this.y-this.r<0){
+      this.dy=-this.dy
+    }
+    this.x+=this.dx;
+    this.y+=this.dy;
+    // console.log('update')
+
+    this.draw()
+
+  }
+}
+let radius=30
+const circles=[]
+
+for(let i = 0;i<200;i++){
+  let x=Math.floor(Math.random()*(innerWidth-radius*2)+radius)
+  let y =Math.floor(Math.random()*(innerHeight-radius*2)+radius)
+  let dx = (Math.random()-0.5)
+  let dy = (Math.random()-0.5)
+  circles.push(new Circle(x,y,dx,dy))
+}
+console.log(circles)
+
+function animate(){
+  ctx.clearRect(0,0,innerWidth,innerHeight)
+  requestAnimationFrame(animate)
+  circles.forEach((circle)=>{
+    circle.update()
+  })
+  
+}
+animate()
