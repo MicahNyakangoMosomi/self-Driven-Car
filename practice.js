@@ -252,18 +252,29 @@ const ctx = canvas.getContext('2d')
 // ctx.stroke()
 
 
-let x = 0
-let dx=1
+let x = 100
+let y = 100
+let r = 30
+let dx=10
+let dy = 10
 function animate(){
-  if (x>innerWidth||x<0){
-    dx=-1  
-  }
+
+  
+  
   ctx.clearRect(0,0,innerWidth,innerHeight)
   ctx.beginPath()
-  ctx.arc(x,130,30,0,Math.PI*2,false)
+  ctx.arc(x,y,r,0,Math.PI*2,false)
   ctx.strokeStyle = 'blue'
   ctx.stroke()
-  x+=1*dx
+  
+  if (x+r>innerWidth || x-r<0){
+    dx=-dx 
+  }
+  if (y+r>innerHeight || y-r<0){
+    dy=-dy
+  }
+  x+=dx
+  y+=dy
   
   requestAnimationFrame(animate)
 
