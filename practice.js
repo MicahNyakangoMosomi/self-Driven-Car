@@ -233,54 +233,92 @@ animate();
 
 
 
-const canvas = document.querySelector('canvas')
-console.log(canvas)
+// const canvas = document.querySelector('canvas')
+// console.log(canvas)
 
-// Set canvas dimensions to fill the screen
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-const ctx = canvas.getContext('2d')
-// ctx.translate(canvas.width / 2, canvas.height / 2);
-
-
-// ctx.fillRect(0,0,50,50)
-
-// ctx.beginPath()
-// ctx.moveTo(0,0)
-// ctx.lineTo(100,50)
-// ctx.strokeStyle= 'blue'
-// ctx.stroke()
+// // Set canvas dimensions to fill the screen
+// canvas.height = window.innerHeight;
+// canvas.width = window.innerWidth;
+// const ctx = canvas.getContext('2d')
+// // ctx.translate(canvas.width / 2, canvas.height / 2);
 
 
-let x = 100
-let y = 100
-let r = 30
-let dx=10
-let dy = 10
-function animate(){
+// // ctx.fillRect(0,0,50,50)
 
+// // ctx.beginPath()
+// // ctx.moveTo(0,0)
+// // ctx.lineTo(100,50)
+// // ctx.strokeStyle= 'blue'
+// // ctx.stroke()
+
+
+// let x = 100
+// let y = 100
+// let r = 30
+// let dx=10
+// let dy = 10
+
+// let mouse={
+//   x:undefined,
+//   y:undefined
+// }
+
+// function draw(){
+//   ctx.fillStyle="red"
+//   ctx.clearRect(0,0,innerWidth,innerHeight)
+//   ctx.beginPath()
+//   ctx.arc(x,y,r,0,Math.PI*2,false)
+//   ctx.strokeStyle = 'blue'
+//   ctx.stroke()
+//   ctx.fill()
+
+// }
+
+// function update(){
+//   if (x+r>innerWidth || x-r<0){
+//     dx=-dx 
+//   }
+//   if (y+r>innerHeight || y-r<0){
+//     dy=-dy
+//   }
+//   x+=dx
+//   y+=dy
+
+//   window.addEventListener('mousemove',function(e){
+//     mouse.x=e.x;
+//     mouse.y=e.y;
+//     console.log(x)
+//     if (mouse.x - x <50 && mouse.x - x > -50
+//       && mouse.y - y <50 && mouse.y - y > -50){
+//       r=r+10
+//     }
+//     else if(r>2){
+//       r-=1
+//     }
   
+//   })
+
+//   draw()
+
+// }
+
+
+// function animate(){
+//   update()
+//   requestAnimationFrame(animate)
+
+// }
+
+
+// function interactive(){
   
-  ctx.clearRect(0,0,innerWidth,innerHeight)
-  ctx.beginPath()
-  ctx.arc(x,y,r,0,Math.PI*2,false)
-  ctx.strokeStyle = 'blue'
-  ctx.stroke()
-  
-  if (x+r>innerWidth || x-r<0){
-    dx=-dx 
-  }
-  if (y+r>innerHeight || y-r<0){
-    dy=-dy
-  }
-  x+=dx
-  y+=dy
-  
-  requestAnimationFrame(animate)
+
+// }
 
 
 
-}
 
-animate(0,0)
 
+// animate()
+
+class
