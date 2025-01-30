@@ -115,120 +115,161 @@ animate();
 */
 
 // Select the canvas element and get the 2D rendering context
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
+// const canvas = document.querySelector('canvas');
+// const ctx = canvas.getContext('2d');
+
+// // Set canvas dimensions to fill the screen
+// canvas.height = window.innerHeight;
+// canvas.width = window.innerWidth;
+
+// Translate the coordinate system to center the canvas
+// ctx.translate(canvas.width / 2, canvas.height / 2);
+
+// Rectangle class to handle movement and rendering
+// class Rectangle {
+//   constructor(x, y, width, height) {
+//     this.x = x; // Initial x-position
+//     this.y = y; // Initial y-position
+//     this.width = width; // Rectangle width
+//     this.height = height; // Rectangle height
+
+//     this.forward = false; // Move forward (up)
+//     this.reverse = false; // Move backward (down)
+//     this.left = false; // Turn left
+//     this.right = false; // Turn right
+
+//     this.acceleration = 0.2; // Speed increase rate
+//     this.friction = 0.05; // Gradual slowdown
+//     this.maxSpeed = 4; // Maximum speed
+//     this.speed = 0; // Current speed
+//     this.angle = 0; // Rotation angle for direction
+
+//     this.addEventListeners(); // Enable keyboard controls
+//   }
+
+//   // Draw the rectangle on the canvas
+//   draw(ctx) {
+//     ctx.save(); // Save the current canvas state
+//     ctx.translate(this.x, this.y); // Move to rectangle's position
+//     ctx.rotate(this.angle); // Rotate for direction
+//     ctx.fillStyle = "black"; // Rectangle color
+//     ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height); // Draw rectangle centered
+//     ctx.restore(); // Restore canvas state
+//   }
+
+//   // Update position and handle boundaries
+//   move() {
+//     // Adjust speed based on forward/reverse input
+//     if (this.forward) {
+//       this.speed = Math.min(this.speed + this.acceleration, this.maxSpeed);
+//     }
+//     if (this.reverse) {
+//       this.speed = Math.max(this.speed - this.acceleration, -this.maxSpeed / 2);
+//     }
+
+//     // Apply friction when no input
+//     if (!this.forward && !this.reverse) {
+//       if (this.speed > 0) this.speed = Math.max(this.speed - this.friction, 0);
+//       if (this.speed < 0) this.speed = Math.min(this.speed + this.friction, 0);
+//     }
+
+//     // Adjust angle based on left/right input
+//     if (this.left) this.angle -= 0.05; // Rotate left
+//     if (this.right) this.angle += 0.05; // Rotate right
+
+//     // Update position based on speed and angle
+//     this.x += Math.cos(this.angle) * this.speed;
+//     this.y += Math.sin(this.angle) * this.speed;
+
+//     // Prevent rectangle from going out of canvas
+//     const boundaryX = canvas.width / 2 - this.width / 2;
+//     const boundaryY = canvas.height / 2 - this.height / 2;
+//     this.x = Math.max(-boundaryX, Math.min(boundaryX, this.x));
+//     this.y = Math.max(-boundaryY, Math.min(boundaryY, this.y));
+//   }
+
+//   // Add event listeners for keyboard controls
+//   addEventListeners() {
+//     document.addEventListener("keydown", (event) => {
+//       switch (event.key) {
+//         case "ArrowUp": this.forward = true; break;
+//         case "ArrowDown": this.reverse = true; break;
+//         case "ArrowLeft": this.left = true; break;
+//         case "ArrowRight": this.right = true; break;
+//       }
+//     });
+
+//     document.addEventListener("keyup", (event) => {
+//       switch (event.key) {
+//         case "ArrowUp": this.forward = false; break;
+//         case "ArrowDown": this.reverse = false; break;
+//         case "ArrowLeft": this.left = false; break;
+//         case "ArrowRight": this.right = false; break;
+//       }
+//     });
+//   }
+// }
+
+// // Create the rectangle object
+// const rectangle = new Rectangle(0, 0, 30, 50);
+
+// // Animation loop
+// function animate() {
+//   // Clear the entire canvas
+//   ctx.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+
+//   // Update the rectangle's movement
+//   rectangle.move();
+
+//   // Draw the rectangle
+//   rectangle.draw(ctx);
+
+//   // Request the next animation frame
+//   requestAnimationFrame(animate);
+// }
+
+// // Start the animation
+// animate();
+
+
+
+const canvas = document.querySelector('canvas')
+console.log(canvas)
 
 // Set canvas dimensions to fill the screen
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+const ctx = canvas.getContext('2d')
+// ctx.translate(canvas.width / 2, canvas.height / 2);
 
-// Translate the coordinate system to center the canvas
-ctx.translate(canvas.width / 2, canvas.height / 2);
 
-// Rectangle class to handle movement and rendering
-class Rectangle {
-  constructor(x, y, width, height) {
-    this.x = x; // Initial x-position
-    this.y = y; // Initial y-position
-    this.width = width; // Rectangle width
-    this.height = height; // Rectangle height
+// ctx.fillRect(0,0,50,50)
 
-    this.forward = false; // Move forward (up)
-    this.reverse = false; // Move backward (down)
-    this.left = false; // Turn left
-    this.right = false; // Turn right
+// ctx.beginPath()
+// ctx.moveTo(0,0)
+// ctx.lineTo(100,50)
+// ctx.strokeStyle= 'blue'
+// ctx.stroke()
 
-    this.acceleration = 0.2; // Speed increase rate
-    this.friction = 0.05; // Gradual slowdown
-    this.maxSpeed = 4; // Maximum speed
-    this.speed = 0; // Current speed
-    this.angle = 0; // Rotation angle for direction
 
-    this.addEventListeners(); // Enable keyboard controls
+let x = 0
+let dx=1
+function animate(){
+  if (x>innerWidth||x<0){
+    dx=-1  
   }
+  ctx.clearRect(0,0,innerWidth,innerHeight)
+  ctx.beginPath()
+  ctx.arc(x,130,30,0,Math.PI*2,false)
+  ctx.strokeStyle = 'blue'
+  ctx.stroke()
+  x+=1*dx
+  
+  requestAnimationFrame(animate)
 
-  // Draw the rectangle on the canvas
-  draw(ctx) {
-    ctx.save(); // Save the current canvas state
-    ctx.translate(this.x, this.y); // Move to rectangle's position
-    ctx.rotate(this.angle); // Rotate for direction
-    ctx.fillStyle = "black"; // Rectangle color
-    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height); // Draw rectangle centered
-    ctx.restore(); // Restore canvas state
-  }
 
-  // Update position and handle boundaries
-  move() {
-    // Adjust speed based on forward/reverse input
-    if (this.forward) {
-      this.speed = Math.min(this.speed + this.acceleration, this.maxSpeed);
-    }
-    if (this.reverse) {
-      this.speed = Math.max(this.speed - this.acceleration, -this.maxSpeed / 2);
-    }
 
-    // Apply friction when no input
-    if (!this.forward && !this.reverse) {
-      if (this.speed > 0) this.speed = Math.max(this.speed - this.friction, 0);
-      if (this.speed < 0) this.speed = Math.min(this.speed + this.friction, 0);
-    }
-
-    // Adjust angle based on left/right input
-    if (this.left) this.angle -= 0.05; // Rotate left
-    if (this.right) this.angle += 0.05; // Rotate right
-
-    // Update position based on speed and angle
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed;
-
-    // Prevent rectangle from going out of canvas
-    const boundaryX = canvas.width / 2 - this.width / 2;
-    const boundaryY = canvas.height / 2 - this.height / 2;
-    this.x = Math.max(-boundaryX, Math.min(boundaryX, this.x));
-    this.y = Math.max(-boundaryY, Math.min(boundaryY, this.y));
-  }
-
-  // Add event listeners for keyboard controls
-  addEventListeners() {
-    document.addEventListener("keydown", (event) => {
-      switch (event.key) {
-        case "ArrowUp": this.forward = true; break;
-        case "ArrowDown": this.reverse = true; break;
-        case "ArrowLeft": this.left = true; break;
-        case "ArrowRight": this.right = true; break;
-      }
-    });
-
-    document.addEventListener("keyup", (event) => {
-      switch (event.key) {
-        case "ArrowUp": this.forward = false; break;
-        case "ArrowDown": this.reverse = false; break;
-        case "ArrowLeft": this.left = false; break;
-        case "ArrowRight": this.right = false; break;
-      }
-    });
-  }
 }
 
-// Create the rectangle object
-const rectangle = new Rectangle(0, 0, 30, 50);
-
-// Animation loop
-function animate() {
-  // Clear the entire canvas
-  ctx.clearRect(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
-
-  // Update the rectangle's movement
-  rectangle.move();
-
-  // Draw the rectangle
-  rectangle.draw(ctx);
-
-  // Request the next animation frame
-  requestAnimationFrame(animate);
-}
-
-// Start the animation
-animate();
-
+animate(0,0)
 
