@@ -325,17 +325,19 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-const colors=['orange','black','yellow'];
+
 
 class Circle{
-  constructor(x,y,dy,dx){
+  constructor(x,y,dy,dx,color){
     this.x=x
     this.y=y
     this.dx=dx
     this.dy=dy
+    this.color = color
     this.r = 30 //r => radius
   }
   draw(){
+    ctx.fillStyle=this.color
     ctx.beginPath();
     ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
     ctx.stroke();
@@ -353,6 +355,29 @@ class Circle{
     this.x+=this.dx;
     this.y+=this.dy;
     // console.log('update')
+    let mouse={
+      x:undefined,
+      y:undefined
+      }
+
+    window.addEventListener('mousemove',(e)=>{
+      mouse.x=e.x;
+      mouse.y=e.y;
+      console.log(mouse)
+      if (mouse.x - this.x <50 && mouse.x - this.x > -50
+          && mouse.y - this.y <50 && mouse.y - this.y > -50){
+
+            this.r+=1
+      }
+
+      else if(this.r>2){
+              this.r-=1
+            }
+      else if(this.r>30){
+        this.r=30
+      }
+
+    })
 
     this.draw()
 
@@ -360,13 +385,20 @@ class Circle{
 }
 let radius=30
 const circles=[]
+const colors=['orange','black','yellow','indigo'];
 
-for(let i = 0;i<200;i++){
+
+for(let i = 0;i<500;i++){
   let x=Math.floor(Math.random()*(innerWidth-radius*2)+radius)
   let y =Math.floor(Math.random()*(innerHeight-radius*2)+radius)
-  let dx = (Math.random()-0.5)
-  let dy = (Math.random()-0.5)
-  circles.push(new Circle(x,y,dx,dy))
+  let dx = ((Math.random()*4)-0.5)
+  let dy = ((Math.random()*4)-0.5)
+  let color_no= Math.floor(Math.random()*4)
+  let color=colors[color_no]
+  console.log(color)
+  
+
+  circles.push(new Circle(x,y,dx,dy,color))
 }
 console.log(circles)
 
