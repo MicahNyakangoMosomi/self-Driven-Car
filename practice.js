@@ -326,88 +326,91 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-
-class Circle{
-  constructor(x,y,dy,dx,color){
-    this.x=x
-    this.y=y
-    this.dx=dx
-    this.dy=dy
-    this.color = color
-    this.r = 30 //r => radius
+// Circle class to create moving circles
+class Circle {
+  constructor(x, y, dy, dx, color) {
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.color = color;
+    this.r = 30; // Initial radius of the circle
   }
-  draw(){
-    ctx.fillStyle=this.color
+
+  // Method to draw the circle
+  draw() {
+    ctx.fillStyle = this.color;
     ctx.beginPath();
-    ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
     ctx.stroke();
     ctx.fill();
-    // console.log('draw')
   }
-  update(){
+
+  // Method to update circle's position and handle interactions
+  update() {
+    // Bounce off the walls
+    if (this.x + this.r > innerWidth || this.x - this.r < 0) {
+      this.dx = -this.dx;
+    }
+    if (this.y + this.r > innerHeight || this.y - this.r < 0) {
+      this.dy = -this.dy;
+    }
     
-    if(this.x+this.r>innerWidth || this.x-this.r<0){
-      this.dx=-this.dx
-    }
-    if(this.y+this.r>innerHeight || this.y-this.r<0){
-      this.dy=-this.dy
-    }
-    this.x+=this.dx;
-    this.y+=this.dy;
-    // console.log('update')
-    let mouse={
-      x:undefined,
-      y:undefined
+    // Update position
+    this.x += this.dx;
+    this.y += this.dy;
+    
+    // Mouse interaction
+    let mouse = { x: undefined, y: undefined };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+      
+      // If mouse is close to the circle, increase its size
+      if (
+        mouse.x - this.x < 50 && mouse.x - this.x > -50 &&
+        mouse.y - this.y < 50 && mouse.y - this.y > -50
+      ) {
+        this.r += 1;
       }
-
-    window.addEventListener('mousemove',(e)=>{
-      mouse.x=e.x;
-      mouse.y=e.y;
-      console.log(mouse)
-      if (mouse.x - this.x <50 && mouse.x - this.x > -50
-          && mouse.y - this.y <50 && mouse.y - this.y > -50){
-
-            this.r+=1
+      // Otherwise, reduce its size back to the original
+      else if (this.r > 2) {
+        this.r -= 1;
+      } else if (this.r > 30) {
+        this.r = 30;
       }
-
-      else if(this.r>2){
-              this.r-=1
-            }
-      else if(this.r>30){
-        this.r=30
-      }
-
-    })
-
-    this.draw()
-
+    });
+    
+    // Draw the updated circle
+    this.draw();
   }
 }
-let radius=30
-const circles=[]
-const colors=['orange','black','yellow','indigo'];
 
+let radius = 30;
+const circles = [];
+const colors = ['orange', 'black', 'yellow', 'indigo'];
 
-for(let i = 0;i<500;i++){
-  let x=Math.floor(Math.random()*(innerWidth-radius*2)+radius)
-  let y =Math.floor(Math.random()*(innerHeight-radius*2)+radius)
-  let dx = ((Math.random()*4)-0.5)
-  let dy = ((Math.random()*4)-0.5)
-  let color_no= Math.floor(Math.random()*4)
-  let color=colors[color_no]
-  console.log(color)
+// Create 500 circles with random properties
+for (let i = 0; i < 500; i++) {
+  let x = Math.floor(Math.random() * (innerWidth - radius * 2) + radius);
+  let y = Math.floor(Math.random() * (innerHeight - radius * 2) + radius);
+  let dx = Math.random() * 4 - 0.5;
+  let dy = Math.random() * 4 - 0.5;
+  let color_no = Math.floor(Math.random() * 4);
+  let color = colors[color_no];
   
-
-  circles.push(new Circle(x,y,dx,dy,color))
+  circles.push(new Circle(x, y, dx, dy, color));
 }
-console.log(circles)
 
-function animate(){
-  ctx.clearRect(0,0,innerWidth,innerHeight)
-  requestAnimationFrame(animate)
-  circles.forEach((circle)=>{
-    circle.update()
-  })
-  
+// Animation function to continuously update and render circles
+function animate() {
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
+  requestAnimationFrame(animate);
+  circles.forEach((circle) => {
+    circle.update();
+  });
 }
-animate()
+
+// Start animation
+animate();
