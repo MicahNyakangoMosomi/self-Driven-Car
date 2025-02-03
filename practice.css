@@ -1,9 +1,10 @@
 body {
-  margin: 0;
-  text-align: center;
-  overflow: hidden;
-  background-color: darkgrey;
+  margin: 0; /* Removes default margin to ensure full-page coverage */
+  text-align: center; /* Centers inline content horizontally */
+  overflow: hidden; /* Prevents scrolling by hiding any overflowing content */
+  background-color: darkgrey; /* Sets the background color of the page */
 }
+
 canvas {
-  background-color: lightgrey;
+  background-color: lightgrey; /* Sets the background color of the canvas element */
 }
